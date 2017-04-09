@@ -62,7 +62,7 @@ def changeRow(y):
 	return np.take(y,bottoms+tops,axis=0)
 		
 
-def showData(x,y,check=0):
+def showData(x,y,check=0,change=0):
 	import  matplotlib.pyplot as plt
 	from matplotlib import colors
 	#plt.style.use('ggplot')
@@ -81,9 +81,9 @@ def showData(x,y,check=0):
 	
 	color = cmap(normalize(z[lens]))
 	#color = axes._get_lines.get_next_color()
-	axes.fill_between(x, baseline, stack[0, :],color = color,alpha=1,edgecolor='k') 
+	axes.fill_between(x, baseline, stack[0, :],color = color,alpha=1) 
 	for i in range(1,len(y)):
-		if check!=0:
+		if change!=0:
 			if i<len(y)/2:
 				color = cmap(normalize(z[lens-i]))
 			else:
@@ -91,7 +91,7 @@ def showData(x,y,check=0):
 		else:
 			color = cmap(normalize(z[lens-i]))
 		#color = axes._get_lines.get_next_color()
-		axes.fill_between(x, stack[i-1,:], stack[i, :],color=color,edgecolor='k') 
+		axes.fill_between(x, stack[i-1,:], stack[i, :],color=color) 
 	#axes.plot(np.zeros(50),'--',color='r')
 	plt.show()
 
@@ -102,13 +102,17 @@ def procData():
 	y = np.row_stack(y)
 	x = range(len(y[0]))
 	print 'pic without smoothing...'
-	#showData(x,y)
+	showData(x,y)
 	print 'pic with smooth...'
 	x,y = smooth(x,y)
-	#showData(x,y)
+	showData(x,y)
+	print 'pic with novel design...'
+	showData(x,y,1)
 	print 'pic with novel design...'
 	y = changeRow(y)
-	showData(x,y,1)
+	showData(x,y,1,0)
+	print 'pic with novel design...'
+	showData(x,y,1,1)
 	pass
 
 if __name__ == '__main__':
